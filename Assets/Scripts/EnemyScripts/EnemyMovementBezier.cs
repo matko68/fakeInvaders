@@ -59,10 +59,21 @@ public class EnemyMovementBezier : EnemyMovement
         List<Vector2> controlPoints = new List<Vector2> { _transform.position};
         List<int> quadrants = new List<int> { _quadrant};
 
+        quadrants.Add(_quadrant + 1);
+        quadrants.Add(_quadrant + 1);
+        quadrants.Add(_quadrant + 2);
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (quadrants[i] > 4)
+                quadrants[i] -= 4;
+        }
+
         for (int counter = 1; counter < 4; counter++)
         {
-            quadrants.Add((_quadrant - 1 + counter) % 4 + 1);
-            controlPoints.Add(new Vector2(_quadrants[quadrants[quadrants.Count - 1]][0].RandomValue(), _quadrants[quadrants.Count - 1][1].RandomValue()));
+            //quadrants.Add((_quadrant - 1 + counter) % 4 + 1);
+            Debug.Log(quadrants[counter]);
+            controlPoints.Add(new Vector2(_quadrants[quadrants[counter]][0].RandomValue(), _quadrants[counter][1].RandomValue()));
         }
 
         _quadrant = quadrants[3];
