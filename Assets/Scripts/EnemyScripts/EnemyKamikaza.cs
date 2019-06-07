@@ -10,7 +10,7 @@ public class EnemyKamikaza : MonoBehaviour
     private float time = 0.25f;
     private float timer;
     private Rigidbody2D rigi;
-    private float fac = 5.5f;
+    private float fac = 45f;
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();
@@ -24,12 +24,12 @@ public class EnemyKamikaza : MonoBehaviour
 
         timer -= Time.deltaTime;
         //Debug.Log(Time.deltaTime);
-
+        if (player == null) return;
         if (timer <= 0.0f)
         {
             Vector2 dir = (player.transform.position - transform.position).normalized;
             //rigi.velocity = Vector2.zero;
-            rigi.velocity *= 0.25f;
+            rigi.velocity *= 0.5f;
             rigi.AddForce(dir * fac);
             fac += 2.5f;
             timer = time;

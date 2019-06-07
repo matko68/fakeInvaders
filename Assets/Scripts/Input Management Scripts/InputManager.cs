@@ -26,7 +26,7 @@ public class InputManager : MonoBehaviour
 
     public CustomEvent<InputType> InputEvent = new CustomEvent<InputType>();
     public PlayerController Player;
-    public ShootingManager PlayerShootingManager;
+    public PlayerActionManager PlayerShootingManager;
 
     private float timer;
     private float delta = 0.015f;
@@ -93,6 +93,11 @@ public class InputManager : MonoBehaviour
             direction = direction.normalized;
 
             if (Player) Player.Move(direction);
+
+            if (Input.GetKey(KeyCode.B))
+                PlayerShootingManager.ActivateShield();
+            else
+                PlayerShootingManager.DeactivateShield();
 
             if (Input.GetKey(KeyCode.Space))
             {

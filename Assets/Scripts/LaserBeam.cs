@@ -19,21 +19,21 @@ public class LaserBeam : MonoBehaviour
         selfRigidbody = GetComponent<Rigidbody2D>();
         Shoot(Vector2.up, 5.5f);
     }
-
+    /*
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Screen"))
             Destroy(gameObject);
-    }
+    }*/
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (ObjectsToHitTags.Contains(other.tag))
         {
-            //LifeManager manager = other.GetComponent<LifeManager>();
-            //if (manager)
-              //  manager.Hit();
-            Destroy(gameObject);
+            LifeManager manager = other.GetComponent<LifeManager>();
+            if (manager)
+                manager.Hit();
+            //Destroy(gameObject);
         }
     }
 

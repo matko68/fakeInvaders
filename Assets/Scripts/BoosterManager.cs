@@ -24,8 +24,8 @@ public class BoosterManager : MonoBehaviour
             if (pickUp.Type == PickupType.LASER && _shootingManager)
                 _shootingManager.BoostLaser();
 
-            if (pickUp.Type == PickupType.SHIELD && _lifeManager)
-                _lifeManager.ActiveShield();
+            /*if (pickUp.Type == PickupType.SHIELD && _lifeManager)
+                _lifeManager.ActiveShield();*/
             Destroy(other.gameObject);
         }
     }

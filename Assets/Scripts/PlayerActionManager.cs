@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShootingManager : MonoBehaviour
+public class PlayerActionManager : MonoBehaviour
 {
-    private Transform _shield;
+    public Transform ShieldPrefab;
     public LaserBeam LaserBeamPrefab;
     public float LaserBeamSpeed = 7.5f;
+
+    private Transform _shield;
 
     [Header("Overheat Data")]
 
@@ -24,7 +25,17 @@ public class ShootingManager : MonoBehaviour
     private Transform laserBeamParent;
 
     private bool isContinuousShooting = false;
-    private bool isShieldActive = false;
+    
+    public bool IsShieldUp
+    {
+        get
+        {
+            if (_shield == null)
+                return false;
+            return true;
+        }
+    }
+
 
     private float overheatPoints;
     private bool isOverheated = false;
@@ -62,9 +73,26 @@ public class ShootingManager : MonoBehaviour
         if (OverheatEnabled == false)
             return;
 
-        if ((isContinuousShooting || _shield != null) && isOverheated == false)
+        if (_shield == null && isContinuousShooting && isOverheated == false)
         {
             UpdateOverheatSlider();
+            return;
+        }
+
+        if (_shield != null && isOverheated == false)
+        {
+            overheatPoints += 0.5f;
+            if (overheatPoints >= 100)
+            {
+                overheatPoints = 100;
+                isOverheated = true;
+                if (OverheatSliderFill)
+                    OverheatSliderFill.color = Color.red;
+                DeactivateShield();
+                UpdateOverheatSlider();
+            }
+            else
+                UpdateOverheatSlider();
             return;
         }
 
@@ -146,9 +174,17 @@ public class ShootingManager : MonoBehaviour
         }
 
     }
-   
- 
-
-
-
+    public void ActivateShield()
+    {
+        if (_shield == null && isOverheated == false && isContinuousShooting == false)
+            _shield = Instantiate(ShieldPrefab, transform);
+    }
+    public void DeactivateShield()
+    {
+        if (_shield != null)
+        {
+            Destroy(_shield.gameObject);
+            _shield = null;
+        }
+    }
 }
